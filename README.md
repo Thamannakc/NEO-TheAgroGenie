@@ -3,7 +3,7 @@ An agricultural assistance chatbot built using IBM Watson Assistant. NEO provide
 # Features
 Interactive Chatbot: Provides insights and answers to various agricultural questions.  
 Crop Recommendations: Offers personalized crop suggestions based on soil and climate conditions.  
-Fertilization Guidance: Recommends suitable fertilizers for different crops and soil types.
-Farming Techniques: Guides users on best practices and methods for effective crop management.
-Watson Assistant Integration: Leverages IBM Watson Assistant for powerful conversational capabilities.
-Simple Web Interface: A clean and responsive HTML design for seamless user interaction.
+Fertilization Guidance: Recommends suitable fertilizers for different crops and soil types.  
+Farming Techniques: Guides users on best practices and methods for effective crop management.  
+Watson Assistant Integration: Leverages IBM Watson Assistant for powerful conversational capabilities.  
+Simple Web Interface: A clean and responsive HTML design for seamless user interaction.  
