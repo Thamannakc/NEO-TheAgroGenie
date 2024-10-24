@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroGroove</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="chatbot.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: larger;
+            margin: 0;
+            padding: 0;
+            background: #d0cccc;
+            color: #333;
+        }
+        header {
+            font-family: 'Times New Roman', Times, serif;
+            background: url('images/istockphoto-506164764-612x612.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: 0;
+        }
+        header h1,
+        header h3 {
+            position: relative;
+            z-index: 1;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: transparent; /* Transparent background */
+        }
+        nav a {
+            color: rgb(6, 5, 5);
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background: #000000;
+            color: rgb(255, 255, 255);
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* Five columns with equal width */
+            gap: 20px; /* Gap between items */
+            padding-left: 20px; /* Left padding */
+            padding-right: 20px;
+       }
+        .card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .card img {
+            max-width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            max-height: 150px; /* Set a maximum height for the image */
+            padding-bottom: 10px;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 1rem;
+            color: #666;
+        }
+        .card button {
+            background: #4CAF50;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            
+        }
+        .card button:hover {
+            background: #45a049;
+    
+        }
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+        }
+        .chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .chatbot-header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .chatbot-messages {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .chatbot-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+        .chatbot-input input {
+            border: none;
+            padding: 10px;
+            flex: 1;
+        }
+        .chatbot-input button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+        }
+        h3 {
+            font-weight: normal;
+        }
+        .contact-faq-section {
+            background-color: #0c0909;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .contact-faq-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .contact-faq-section p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .contact-faq-section ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .contact-faq-section ul li {
+            margin-bottom: 10px;
+        }
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #cropSearchForm {
+            display: inline-block;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #cropSearchInput {
+            padding: 10px;
+            border: none;
+            width: 200px;
+            float: left;
+        }
+
+        #cropSearchInput:focus {
+            outline: none;
+        }
+
+        #cropSearchInput::placeholder {
+            color: #999;
+        }
+
+        #cropSearchInput,
+        button {
+            vertical-align: middle;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+</style>
+</head>
+<body>
+    <script>
+        window.watsonAssistantChatOptions = {
+          integrationID: "3cfc7483-85c3-413b-9eb7-e9aa54573452", // The ID of this integration.
+          region: "us-south", // The region your integration is hosted in.
+          serviceInstanceID: "f1d3e201-4c69-40ba-bb1e-154c1918413d", // The ID of your service instance.
+          onLoad: async (instance) => { await instance.render(); }
+        };
+        setTimeout(function(){
+          const t=document.createElement('script');
+          t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+          document.head.appendChild(t);
+        });
+      </script>
+
+    
+
+<header>
+    <h3>Shop high-quality crops directly from trusted sources</h3>
+</header>
+
+<nav>
+    <a href="page1.html">Home</a>
+    <a href="#crops">Crops</a>
+    <a href="#buy">Buy Crops</a>
+    <a href="#contact">Contact</a>
+</nav>
+
+<div class="search-container">
+    <form id="cropSearchForm">
+        <input type="text" id="cropSearchInput" placeholder="Search crops...">
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<h2>Crop Information</h2>
+
+<div class="container" id="crops">
+    
+    <div class="card">
+        <h3>Tomato</h3>
+        <img src="images/tomato.jpg" alt="Tomato">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Coffee</h3>
+        <img src="images/coffee.jpg" alt="Coffee">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Rice</h3>
+        <img src="images/Rice.jpg" alt="Rice">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Sugarcane</h3>
+        <img src="images/sugarcane.jpg" alt="sugarcane">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Alfalfa</h3>
+        <img src="images/alfalfa.jpg" alt="Alfalfa">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Wheat</h3>
+        <img src="images/wheat.jpg" alt="Wheat">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Apple</h3>
+        <img src="images/apple.jpg" alt="Apple">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Banana</h3>
+        <img src="images/banana.png" alt="Banana">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Cabbage</h3>
+        <img src="images/cabbage.jpg" alt="Cabbage">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Carrot</h3>
+        <img src="images/carrot.jpg" alt="Carrot">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Cocoa</h3>
+        <img src="images/cocoa.jpg" alt="Cocoa">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Coconut</h3>
+        <img src="images/coconut.png" alt="Coconut">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Corn</h3>
+        <img src="images/corn.jpg" alt="Corn">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Mango</h3>
+        <img src="images/mango.jpg" alt="Mango">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Onion</h3>
+        <img src="images/onion.jpg" alt="Onion">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Papaya</h3>
+        <img src="images/papaya.jpg" alt="Papaya">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Pulses</h3>
+        <img src="images/pulses.jpg" alt="Pulses">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Potato</h3>
+        <img src="images/potato.jpg" alt="Potato">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Pineapple</h3>
+        <img src="images/pineapple.png" alt="Pineapple">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Rubber</h3>
+        <img src="images/rubber.jpg" alt="Rubber">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Strawberry</h3>
+        <img src="images/strawberry.png" alt="Strawberry">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Spices</h3>
+        <img src="images/spices.jpg" alt="Spices">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Sorghum</h3>
+        <img src="images/sorghum.jpg" alt="Sorghum">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Tea</h3>
+        <img src="images/tea.jpg" alt="Tea">
+        <button>Buy Now</button>
+    </div>
+    <div class="card">
+        <h3>Tobacco</h3>
+        <img src="images/tobacco1.jpg" alt="Tobacco">
+        <button>Buy Now</button>
+    </div>
+    
+    <!-- Add more crop cards as needed -->
+</div>
+
+
+
+
+</body>
+</html>

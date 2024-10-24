@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroGroove</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="chatbot.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: larger;
+            margin: 0;
+            padding: 0;
+            background: #d0cccc;
+            color: #333;
+        }
+        header {
+            font-family: 'Times New Roman', Times, serif;
+            background: url('images/istockphoto-506164764-612x612.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: 0;
+        }
+        header h1,
+        header h3 {
+            position: relative;
+            z-index: 1;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background: transparent; /* Transparent background */
+        }
+        nav a {
+            color: rgb(6, 5, 5);
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background: #000000;
+            color: rgb(255, 255, 255);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto; /* Center align */
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            width: calc(33.33% - 20px); /* Three cards per row with margin */
+            flex: 1 1 calc(33.33% - 20px);
+            max-width: 300px;
+        }
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .card p {
+            font-size: 1rem;
+        }
+        .card button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .card button:hover {
+            background: #45a049;
+        }
+        .chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+        }
+        .chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .chatbot-header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .chatbot-messages {
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+        .chatbot-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+        .chatbot-input input {
+            border: none;
+            padding: 10px;
+            flex: 1;
+        }
+        .chatbot-input button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 40px;
+        }
+        h3 {
+            font-weight: normal;
+        }
+        .contact-faq-section {
+            background-color: #0c0909;
+            padding: 50px 0;
+            text-align: center;
+        }
+        .contact-faq-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .contact-faq-section p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .contact-faq-section ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .contact-faq-section ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <script>
+        window.watsonAssistantChatOptions = {
+          integrationID: "3cfc7483-85c3-413b-9eb7-e9aa54573452", // The ID of this integration.
+          region: "us-south", // The region your integration is hosted in.
+          serviceInstanceID: "f1d3e201-4c69-40ba-bb1e-154c1918413d", // The ID of your service instance.
+          onLoad: async (instance) => { await instance.render(); }
+        };
+        setTimeout(function(){
+          const t=document.createElement('script');
+          t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+          document.head.appendChild(t);
+        });
+      </script>
+    
+
+<header>
+    <h1>Welcome to AgroGroove</h1>
+    
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#crops">About Us</a>
+    <a href="page2.html">Buy Crops</a>
+    <a href="#contact">Contact</a>
+</nav>
+<div class="container">
+    <section id="introduction">
+        
+        <p>AgroGroove is your one-stop platform for everything related to crop farming. We provide detailed information on various crops, their cultivation techniques, and harvesting processes. Whether you're looking to learn about farming practices or purchase high-quality crops, AgroGroove has you covered.</p>
+    </section>
+
+    <section id="website-details">
+        <h2>Overview</h2>
+        <ul>
+            <li>Comprehensive information on a wide range of crops, from planting to harvesting.</li>
+            <li>Valuable resources and expert advice for seasoned farmers and enthusiasts alike.</li>
+            <li>Marketplace to purchase high-quality crops directly from trusted sources.</li>
+            <li>Integration of chatbot NEO - The AgroGenie for enhanced user interaction and assistance.</li>
+            <li>Agriculture meets innovation at AgroGroove.</li>
+        </ul>
+    </section>
+</div>
+
+<div class="contact-faq-section">
+    <div class="container">
+        <section id="faq">
+            <h2>FAQ</h2>
+            <p>Coming Soon...</p>
+            <!-- Add FAQ content here -->
+        </section>
+    </div>
+</div>
+
+<div class="contact-faq-section">
+    <div class="container">
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or inquiries, feel free to reach out to us:</p>
+            <ul>
+                <li>Email: info@agrogroove.com</li>
+                <li>Phone: +1 (123) 456-7890</li>
+                <!-- Add more contact information as needed -->
+            </ul>
+        </section>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
